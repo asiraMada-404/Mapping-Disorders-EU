@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Statistics Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.05);
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .question {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .controls {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 8px 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .chart-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        @media (max-width: 576px) {
+            .flex-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .chart-container {
+                width: 100%;
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Survey Statistics Visualization</h1>
+        
+        <div class="controls">
+            <label for="questionSelect">Select a question to display:</label>
+            <select id="questionSelect" onchange="showSelectedQuestion()">
+                <option value="">-- Select a question --</option>
+                <optgroup label="Demographics">
+                    <option value="gender">Gender Distribution</option>
+                    <option value="age">Age Distribution</option>
+                    <option value="education">Education Level</option>
+                    <option value="familiarity">Map Familiarity</option>
+                    <option value="device">Devices Used</option>
+                    <option value="impairment">Visual Impairments</option>
+                </optgroup>
+                <optgroup label="2D Map Questions">
+                    <option value="q1_2d">Q.1 -2D: Countries with most instances</option>
+                    <option value="q2_2d">Q.2 -2D: Spain's category</option>
+                    <option value="q3_2d">Q.3-2D: Spain's change 2006-2017</option>
+                    <option value="q4_2d">Q.4-2D: Greece vs Italy differences</option>
+                </optgroup>
+                <optgroup label="3D Map Questions">
+                    <option value="q1_3d">Q.1-3D: Countries with most cases</option>
+                    <option value="q2_3d">Q.2-3D: Norway's category</option>
+                    <option value="q3_3d">Q.3-3D: Norway's change 1990-2003</option>
+                    <option value="q4_3d">Q.4-3D: France vs Spain differences</option>
+                </optgroup>
+                <optgroup label="Preferences">
+                    <option value="preference0">Map Preference (Q.1)</option>
+                    <option value="preference1">Map Preference (Q.2)</option>
+                    <option value="preference2">Map Preference (Q.3)</option>
+                </optgroup>
+            </select>
+        </div>
+        
+        <!-- Demographics Section -->
+        <div id="gender-section" class="section hidden">
+            <h2>Gender Distribution</h2>
+            <div class="chart-container">
+                <div class="chart-title">Gender Distribution</div>
+                <canvas id="genderChart"></canvas>
+            </div>
+        </div>
+        
+        <div id="age-section" class="section hidden">
+            <h2>Age Distribution</h2>
+            <div class="chart-container">
+                <div class="chart-title">Age Distribution</div>
+                <canvas id="ageChart"></canvas>
+            </div>
+        </div>
+        
+        <div id="education-section" class="section hidden">
+            <h2>Education Level</h2>
+            <div class="chart-container">
+                <div class="chart-title">What is the highest level of education you have completed?</div>
+                <canvas id="educationChart"></canvas>
+            </div>
+        </div>
+        
+        <div id="familiarity-section" class="section hidden">
+            <h2>Map Familiarity</h2>
+            <div class="chart-container">
+                <div class="chart-title">How familiar do you think you are with using maps?</div>
+                <canvas id="familiarityChart"></canvas>
+            </div>
+        </div>
+        
+        <div id="device-section" class="section hidden">
+            <h2>Devices Used</h2>
+            <div class="chart-container">
+                <div class="chart-title">Which device do you use to fill out the questionnaire?</div>
+                <canvas id="deviceChart"></canvas>
+            </div>
+        </div>
+        
+        <div id="impairment-section" class="section hidden">
+            <h2>Visual Impairments</h2>
+            <div class="flex-container">
+                <div class="chart-container">
+                    <div class="chart-title">Are you encountering any visual impairments?</div>
+                    <canvas id="impairmentChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Types of Visual Impairments</div>
+                    <canvas id="impairmentTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2D Map Questions -->
+        <div id="q1_2d-section" class="section hidden">
+            <h2>2D Map Question 1</h2>
+            <div class="question">
+                <h3>Q.1 -2D: Which country or countries are depicted with the most anxiety instances in 1990, as observed in the 2D form of the Anxiety Map (year: 1990)? </h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Countries with Most Instances</div>
+                        <canvas id="q1_2dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q1_2dChartRW"></canvas>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        
+        <div id="q2_2d-section" class="section hidden">
+            <h2>2D Map Question 2</h2>
+            <div class="question">
+                <h3>Q.2 - 2D: To which category of Depressive Disorder cases does Spain belong, as observed in the 2D form of the Depressive Disorders Map (year: 2006)?</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Spain's Category</div>
+                        <canvas id="q2_2dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q2_2dChartRW"></canvas>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        
+        <div id="q3_2d-section" class="section hidden">
+            <h2>2D Map Question 3</h2>
+            <div class="question">
+                <h3>Q.3-2D: How did the phenomenon's value in Spain change from 2006 to 2017, as observed in the 2D form of the Depressive Disorders Map (year: 2006 & 2017)</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Spain's Value Change in 2017</div>
+                        <canvas id="q3_2dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q3_2dChartRW"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="q4_2d-section" class="section hidden">
+            <h2>2D Map Question 4</h2>
+            <div class="question">
+                <h3>Q.4-2D: In 1996, does Drug Use Disorder show more, fewer, or no discrepancies in values between Greece and Italy, as observed in the 2D form of the Drug Use Disorders Map (year: 1996)?</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Greece vs Italy Discrepancies</div>
+                        <canvas id="q4_2dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q4_2dChartRW"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 3D Map Questions -->
+        <div id="q1_3d-section" class="section hidden">
+            <h2>3D Map Question 1</h2>
+            <div class="question">
+                <h3>Q.1-3D: Which country or countries are depicted with the highest levels of depressive disorders in 2006, as observed in the 3D form of the Depressive Disorders Map (year: 2006)?</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Countries with Most Cases</div>
+                        <canvas id="q1_3dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q1_3dChartRW"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="q2_3d-section" class="section hidden">
+            <h2>3D Map Question 2</h2>
+            <div class="question">
+                <h3>Q.2-3D: To which category of Alcohol Use Disorder cases did Norway belong in 1990, as observed in the 3D form of the Alcohol Use Disorders Map (year: 1990)?</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Norway's Category</div>
+                        <canvas id="q2_3dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q2_3dChartRW"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="q3_3d-section" class="section hidden">
+            <h2>3D Map Question 3</h2>
+            <div class="question">
+                <h3>Q.3-3D: How did the phenomenon's value in Norway change from 1990 to 2003, as observed in the 3D form of the Alcohol Use Disorders Map (years: 1990 and 2003)?</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">Norway's Value Change in 2003</div>
+                        <canvas id="q3_3dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q3_3dChartRW"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="q4_3d-section" class="section hidden">
+            <h2>3D Map Question 4</h2>
+            <div class="question">
+                <h3>Q.4-3D: Does the phenomenon of Anxiety in 2002 exhibit more, fewer, or no discrepancies in values between France and Spain?</h3>
+                <div class="flex-container">
+                    <div class="chart-container">
+                        <div class="chart-title">France vs Spain Discrepancies</div>
+                        <canvas id="q4_3dChart"></canvas>
+                    </div>
+                    <div class="chart-container" style="width: 50%;">
+                            <div class="chart-title">Right or Wrong Responses</div>
+                            <canvas id="q4_3dChartRW"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preferences -->
+        <div id="preference0-section" class="section hidden">
+            <h2>Map Preference (Q.1)</h2>
+            <div class="chart-container">
+                <div class="chart-title"> In the case of two 3D maps depicting the same phenomenon, with the only difference being that the first map uses additional shades of yellow, orange, and brown, which of the two maps do you think helps more in understanding the phenomenon?</div>
+                <canvas id="preferenceChart0"></canvas>
+            </div>
+        </div>
+        <div id="preference1-section" class="section hidden">
+            <h2>Map Preference (Q.2)</h2>
+            <div class="chart-container">
+                <div class="chart-title"> Alcohol use disorder is depicted for Europe in 1996 in 2D and 3D maps, with Italy having the fewest cases. Which map do you think represents this phenomenon more effectively?</div>
+                <canvas id="preferenceChart1"></canvas>
+            </div>
+        </div>
+        
+        <div id="preference2-section" class="section hidden">
+            <h2>Map Preference (Q.3)</h2>
+            <div class="chart-container">
+                <div class="chart-title"> Overall, which map type (2D or 3D) helped you more to understand and answer the questionnaire?</div>
+                <canvas id="preferenceChart2"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show selected question and hide others
+        function showSelectedQuestion() {
+            const select = document.getElementById('questionSelect');
+            const selectedValue = select.value;
+            
+            // Hide all sections first
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            if (selectedValue) {
+                document.getElementById(`${selectedValue}-section`).classList.remove('hidden');
+            }
+        }
+
+        // Initialize all charts (same as before but with exact labels from Excel)
+        
+        // Gender Chart
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        const genderChart = new Chart(genderCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Male (29%)', 'Female (69%)', 'Other (2%)'],
+                datasets: [{
+                    label: 'Count of Respondents',
+                    data: [13, 31, 1],
+                    backgroundColor: ['blue', 'magenta', 'gray'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Age Chart
+        const ageCtx = document.getElementById('ageChart').getContext('2d');
+        const ageChart = new Chart(ageCtx, {
+            type: 'pie',
+            data: {
+                labels: ['18-25 (27%)', '26-35 (38%)', '36-45 (15%)', '46-55 (13%)', '56-65 (7%)', '65+ (0%)'],
+                datasets: [{
+                    label: 'Count of Respondents',
+                    data: [12, 17, 7, 6, 3, 0],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#34495e'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Education Chart
+        const educationCtx = document.getElementById('educationChart').getContext('2d');
+        const educationChart = new Chart(educationCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Primary (0%)', 
+                    'Lower Secondary (0%)', 
+                    'Upper Secondary (20%)', 
+                    'Bachelor\'s (44%)', 
+                    'Master\'s (36%)', 
+                    'Doctorate (0%)', 
+                    'Post-Doctorate (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Respondents',
+                    data: [0, 0, 9, 20, 16, 0, 0],
+                    backgroundColor: ['red', 'blue', 'green', 'orange', 'purple', 'pink', 'yellow'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Familiarity Chart
+        const familiarityCtx = document.getElementById('familiarityChart').getContext('2d');
+        const familiarityChart = new Chart(familiarityCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Not at All Familiar (2%)', 
+                    'Slightly Familiar (18%)', 
+                    'Somewhat Familiar (44%)', 
+                    'Very Familiar (20%)', 
+                    'Frequent/All-day user (16%)'
+                ],
+                datasets: [{
+                    label: 'Count ofRespondents',
+                    data: [1, 8, 20, 9, 7],
+                    backgroundColor: ['red', 'blue', 'green', 'orange', 'purple'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Device Chart
+        const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+        const deviceChart = new Chart(deviceCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Desktop (36%)', 'Laptop (33%)', 'Tablet (2%)', 'Mobile phone (29%)'],
+                datasets: [{
+                    data: [16, 15,1, 13],
+                    backgroundColor: [
+                        '#3498db',
+                        '#e74c3c',
+                        '#2ecc71',
+                        '#f39c12'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Impairment Chart
+        const impairmentCtx = document.getElementById('impairmentChart').getContext('2d');
+        const impairmentChart = new Chart(impairmentCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Yes (29%)', 'No (71%)'],
+                datasets: [{
+                    data: [13, 32],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Impairment Type Chart
+        const impairmentTypeCtx = document.getElementById('impairmentTypeChart').getContext('2d');
+        const impairmentTypeChart = new Chart(impairmentTypeCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Nearsightedness (77%)', 'Presbyopia (23%)'],
+                datasets: [{
+                    label: 'Count of Respondents',
+                    data: [10, 3],
+                    backgroundColor: ['#029456', '#F86A38'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q1 2D Chart
+        const q1_2dCtx = document.getElementById('q1_2dChart').getContext('2d');
+        const q1_2dChart = new Chart(q1_2dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Portugal and Norway (98%)', 
+                    'Italy and Greece (2%)', 
+                    'UK (0%)', 
+                    'Spain (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses (Countries)',
+                    data: [44, 1, 0, 0],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        const q1_2dCtxRW = document.getElementById('q1_2dChartRW').getContext('2d');
+        const q1_2dChartRW = new Chart(q1_2dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (98%)', 
+                    'Wrong (2%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [44, 1],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q2 2D Chart
+        const q2_2dCtx = document.getElementById('q2_2dChart').getContext('2d');
+        const q2_2dChart = new Chart(q2_2dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    '> 46 (0%)', 
+                    '39 - 46 (2%)', 
+                    '32 - 39 (96%)', 
+                    '25 - 32 (0%)', 
+                    '< 25 (2%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [0, 1, 43, 0, 1],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f','#9b59b6'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q2_2dCtxRW = document.getElementById('q2_2dChartRW').getContext('2d');
+        const q2_2dChartRW = new Chart(q2_2dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (96%)', 
+                    'Wrong (4%)'
+                ],
+                datasets: [{
+                    label: 'Count ofResponses',
+                    // Data represents the number of correct (43) and incorrect (2) responses
+                    data: [43, 2],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q3 2D Chart
+        const q3_2dCtx = document.getElementById('q3_2dChart').getContext('2d');
+        const q3_2dChart = new Chart(q3_2dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Increase (98%)', 
+                    'Decrease (2%)', 
+                    'No variation (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [44, 1, 0],
+                    backgroundColor: ['#2ecc71', '#f1c40f','#9b59b6'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q3_2dCtxRW = document.getElementById('q3_2dChartRW').getContext('2d');
+        const q3_2dChartRW = new Chart(q3_2dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (98%)', 
+                    'Wrong (2%)'
+                ],
+                datasets: [{
+                    label: 'Count ofResponses',
+                    data: [44, 1],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q4 2D Chart
+        const q4_2dCtx = document.getElementById('q4_2dChart').getContext('2d');
+        const q4_2dChart = new Chart(q4_2dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Less (0%)', 
+                    'More (100%)', 
+                    'None (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [0, 45, 0],
+                    backgroundColor: ['#2ecc71', '#f1c40f','#9b59b6'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q4_2dCtxRW = document.getElementById('q4_2dChartRW').getContext('2d');
+        const q4_2dChartRW = new Chart(q4_2dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (100%)', 
+                    'Wrong (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [45, 0],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q1 3D Chart
+        const q1_3dCtx = document.getElementById('q1_3dChart').getContext('2d');
+        const q1_3dChart = new Chart(q1_3dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Sweden and Finland (0%)', 
+                    'Portugal and Greece (100%)', 
+                    'France (0%)', 
+                    'Germany (0%)'
+                ],
+                datasets: [{
+                    label: 'Count ofResponses',
+                    data: [0, 45, 0, 0],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q1_3dCtxRW = document.getElementById('q1_3dChartRW').getContext('2d');
+        const q1_3dChartRW = new Chart(q1_3dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (100%)', 
+                    'Wrong (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [45, 0],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q2 3D Chart
+        const q2_3dCtx = document.getElementById('q2_3dChart').getContext('2d');
+        const q2_3dChart = new Chart(q2_3dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    '> 28 (9%)', 
+                    '24 - 28 (91%)', 
+                    '20 - 24 (0%)', 
+                    '16 - 20 (0%)', 
+                    '< 16 (0%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [4, 41, 0, 0, 0],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q2_3dCtxRW = document.getElementById('q2_3dChartRW').getContext('2d');
+        const q2_3dChartRW = new Chart(q2_3dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (91%)', 
+                    'Wrong (9%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [41, 4],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+
+
+        // Q3 3D Chart
+        const q3_3dCtx = document.getElementById('q3_3dChart').getContext('2d');
+        const q3_3dChart = new Chart(q3_3dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Increase (0%)', 
+                    'Decrease (89%)', 
+                    'No variation (11%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [0, 40, 5],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q3_3dCtxRW = document.getElementById('q3_3dChartRW').getContext('2d');
+        const q3_3dChartRW = new Chart(q3_3dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (89%)', 
+                    'Wrong (11%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [40, 5],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Q4 3D Chart
+        const q4_3dCtx = document.getElementById('q4_3dChart').getContext('2d');
+        const q4_3dChart = new Chart(q4_3dCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Less (96%)',
+                    'More (2%)', 
+                    'None (2%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [43, 1, 1],
+                    backgroundColor: ['#3498db', '#e74c3c', '#2ecc71'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        const q4_3dCtxRW = document.getElementById('q4_3dChartRW').getContext('2d');
+        const q4_3dChartRW = new Chart(q4_3dCtxRW, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Right (96%)', 
+                    'Wrong (4%)'
+                ],
+                datasets: [{
+                    label: 'Count of Responses',
+                    data: [43, 2],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+        // Preference Chart 0
+        const preferenceCtx0 = document.getElementById('preferenceChart0').getContext('2d');
+        const preferenceChart0 = new Chart(preferenceCtx0, {
+            type: 'pie',
+            data: {
+                labels: ['First Map (98%)', 'Second Map (2%)'],
+                datasets: [{
+                    data: [44, 1],
+                    backgroundColor: [
+                        '#3498db',
+                        '#e74c3c'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Preference Chart 1
+        const preferenceCtx1 = document.getElementById('preferenceChart1').getContext('2d');
+        const preferenceChart1 = new Chart(preferenceCtx1, {
+            type: 'pie',
+            data: {
+                labels: ['2D Map (45%)', '3D Map (20%)', 'Both of them (33%)', 'None of them (2%)'],
+                datasets: [{
+                    data: [20, 9, 15, 1],
+                    backgroundColor: [
+                        '#3498db',
+                        '#e74c3c',
+                        '#2ecc71',
+                        '#f39c12'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Preference Chart 2
+        const preferenceCtx2 = document.getElementById('preferenceChart2').getContext('2d');
+        const preferenceChart2 = new Chart(preferenceCtx2, {
+            type: 'pie',
+            data: {
+                labels: ['2D Map (44%)', '3D Map (18%)', 'Both of them (38%)', 'None of them (0%)'],
+                datasets: [{
+                    data: [20, 8, 17, 0],
+                    backgroundColor: [
+                        '#3498db',
+                        '#e74c3c',
+                        '#2ecc71',
+                        '#f39c12'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

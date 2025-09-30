@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapping Disorders in EU Explorer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-custom navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <!-- <i class="fas fa-brain me-2"></i>Mapping Disorders in EU Explorer -->
+        <i class="fas fa-heart-pulse me-2"></i>Mapping Disorders in EU 
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav nav-tabs ms-auto" id="responsiveTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+              <i class="fas fa-home me-1"></i> Home
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="about-tab" data-bs-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="false">
+              <i class="fas fa-info-circle me-1"></i> About
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="maps-tab" data-bs-toggle="tab" href="#maps" role="tab" aria-controls="maps" aria-selected="false">
+              <i class="fas fa-map-marked-alt me-1"></i> Maps
+            </a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="statistics-tab" data-bs-toggle="tab" href="#statistics-tab-pane" role="tab" aria-controls="statistics-tab-pane" aria-selected="false">
+              <i class="fas fa-chart-bar me-1"></i> Statistics
+            </a>
+          </li>
+          <!-- <li class="nav-item" role="presentation">
+            <a class="nav-link" id="team-tab" data-bs-toggle="tab" href="#team" role="tab" aria-controls="team" aria-selected="false">
+              <i class="fas fa-users me-1"></i> Team
+            </a>
+          </li> -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+              <i class="fas fa-envelope me-1"></i> Contact
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <!-- Tab Content -->
+    <div class="tab-content" id="responsiveTabsContent">
+      <!-- Home Tab -->
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="hero-section">
+          <div class="container">
+            <h1 class="display-4 mb-4" style="color: aliceblue;">Exploring Mental Health Through Geospatial Analysis</h1>
+            <p class="lead mb-4">A comprehensive platform for visualizing and analyzing the prevalence of mental health and substance use disorders across EU</p>
+            <a href="#maps" class="btn btn-primary btn-lg me-2" data-bs-toggle="tab" onclick="document.getElementById('maps-tab').click();">
+              <i class="fas fa-map-marked-alt me-1"></i> Explore Maps
+            </a>
+            <a href="#statistics-tab" class="btn btn-outline-light btn-lg" data-bs-toggle="tab" onclick="document.getElementById('statistics-tab').click();">
+              <i class="fas fa-chart-bar me-1"></i> View Statistics
+            </a>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-globe-americas"></i>
+              </div>
+              <h3>Continental Coverage (EU)</h3>
+              <p>Access to mental health data from 42 countries, allowing for comprehensive cross-national comparisons.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-layer-group"></i>
+              </div>
+              <h3>Multi-dimensional</h3>
+              <p>Compare 2D and 3D mapping techniques to better understand spatial patterns in mental health data.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-database"></i>
+              </div>
+              <h3>Data Rich</h3>
+              <p>In total 30 years of collected data with spatial distribution for each neuropsychiatric disorder category.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <h2><i class="fas fa-lightbulb me-2"></i>Our Mission</h2>
+            <p>We aim to bridge the gap between geospatial technology and mental health research, providing researchers, policymakers, and healthcare professionals with intuitive tools to visualize and analyze complex datasets.</p>
+            <p>By making this data accessible, we hope to contribute to better understanding and addressing the global mental health crisis.</p>
+          </div>
+          <div class="col-md-6">
+            <h2><i class="fas fa-clock me-2"></i>Recent Updates</h2>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                <strong>June 2023:</strong> Added new anxiety disorder datasets from WHO
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <strong>May 2023:</strong> Implemented 3D visualization for all map categories
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <strong>April 2023:</strong> Launched new statistical analysis tools
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- About Tab -->
+      <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+        <h2 class="mb-4"><i class="fas fa-info-circle me-2"></i>About the Project</h2>
+        
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Project Background</h3>
+            <p>This project investigates the effectiveness of two-dimensional (2D) and three-dimensional (3D) geospatial visualizations through a user study.</p>
+            <p>Traditional 2D maps often fail to capture the complexity of mental health data, which exists across multiple dimensions including time, demographics, and environmental factors.</p>
+            <p>Our platform addresses this by providing both 2D and 3D visualization tools, along with advanced statistical analysis capabilities.</p>
+          </div>
+          <div class="col-md-6">
+            <h3>Methodology</h3>
+            <p>We aggregate data from multiple reliable sources including IHME, Our World in Data and peer-reviewed research studies. All data undergoes rigorous quality control and standardization before being incorporated into our system.</p>
+            <p>Our mapping techniques employ:</p>
+            <ul>
+              <li>Geospatial analysis to visualize prevalence rates</li>
+              <li>Age-standardized prevalence rates</li>
+              <li>Time-series analysis for trends</li>
+              <li>Comparative visualization tools</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <h3>Data Sources</h3>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Source</th>
+                    <th>Coverage</th>
+                    <th>Update Frequency</th>
+                    <th>Disorders Covered</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr>
+                    <td  style="text-align: left; vertical-align: middle;">Our World in Data</td>
+                    <td  style="text-align: left; vertical-align: middle;">Global</td>
+                    <td  style="text-align: left; vertical-align: middle;">Biennial</td>
+                    <td>
+                      <ul>
+                        <li>Anxiety</li>
+                        <li> Depression</li>
+                        <li> Alcohol Use</li>
+                        <li>Drug Use</li>
+                        <li>Bipolar Disorder</li>
+                        <li>Eating Disorders</li>
+                        <li>Schizophrenia</li>
+                      </ul>
+                    </td>
+                  </tr>
+                  <tr style="text-align: left; vertical-align: middle;">
+                    <td>GBD Study</td>
+                    <td>Global</td>
+                    <td>Annual</td>
+                    <td>
+                      <ul>
+                      <li>All categories</li>
+                    </ul>
+                  </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Maps Tab -->
+      <div class="tab-pane fade" id="maps" role="tabpanel" aria-labelledby="maps-tab">
+        <h2><i class="fas fa-map-marked-alt me-2"></i>Mental Health and Substance Use Disorders Maps</h2>
+        <p class="lead" >Explore the geographical distribution of various neuropsychiatric disorders through interactive maps.</p>
+        
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i> Select a disorder category below to view prevalence maps. All data is age-standardized and shown per 100,000 population.
+        </div>
+        
+        <select id="mapSelector" class="form-select map-selector mt-3 mb-4">
+          <option value="" selected disabled><em>--Select a Disorder Category--</em></option>
+          <option value="./html/alcohol.html">Alcohol Use Disorders</option>
+          <option value="./html/drugs.html">Drug Use Disorders</option>
+          <option value="./html/anxiety.html">Anxiety Disorders</option>
+          <option value="./html/depression.html">Depressive Disorders</option>
+          <!-- <option value="bipolar.html">Bipolar Disorder</option>
+          <option value="schizophrenia.html">Schizophrenia</option> -->
+        </select>
+        
+        <div class="iframe-container">
+          <iframe id="mapFrame" src="about:blank"></iframe>
+        </div>
+        
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <h4><i class="fas fa-question-circle me-2"></i>How to Use These Maps</h4>
+            <ul>
+              <li>Click and drag to pan the map</li>
+              <li>Use scroll wheel or +/- buttons to zoom</li>
+              <li>Hover over regions to see detailed data</li>
+              <li>Use the layer control to toggle between 2D and 3D views</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h4><i class="fas fa-download me-2"></i>Data Download</h4>
+            <p>All map data is available for download in multiple formats:</p>
+            <button class="btn btn-outline-primary me-2 mb-2" onclick="downloadZipFileCSV()">
+              <i class="fas fa-file-csv me-1"></i> CSV
+            </button>
+            <!-- <button class="btn btn-outline-primary me-2 mb-2">
+              <i class="fas fa-file-excel me-1"></i> Excel<i class="fas fa-file-geo me-1"></i> GeoJSON
+            </button> -->
+            <button class="btn btn-outline-primary me-2 mb-2" onclick="downloadZipFileGJ()">
+              <i class="fas fa-file-code"></i> GeoJSON
+            </button>
+
+            <script>
+              function downloadZipFileCSV() {
+                const link = document.createElement('a');
+                link.href = 'downloads/csv_files.zip';
+                link.download = 'csv-files_1990-2019.zip';
+                link.click();
+              }
+              function downloadZipFileGJ() {
+              const link = document.createElement('a');
+              link.href = 'downloads/geojson_files.zip';
+              link.download = 'geojson-files_1990-2019.zip';
+              link.click();
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Statistics Tab -->
+      <div class="tab-pane fade" id="statistics-tab-pane" role="tabpanel" aria-labelledby="statistics-tab">
+        <div class="iframe-container mt-3">
+          <iframe id="statisticsIframe" src="./html/statistics_1.html"></iframe>
+        </div>
+      </div>
+      
+      <!-- Team Tab -->
+      <!-- <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
+        <h2 class="mb-4"><i class="fas fa-users me-2"></i>Our Team</h2>
+        
+        <div class="row">
+          <div class="col-md-4">
+            <div class="team-member">
+              <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Dr. Sarah Chen">
+              <h3>Maria-Panagiota Adam</h3>
+              <p class="text-muted">Lead Neuroscientist</p>
+              <p>PhD in Clinical Neuroscience with 15 years experience in psychiatric epidemiology.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-envelope me-1"></i> Contact
+              </a> -->
+              <!-- <a href="mailto:mariapanaad@outlook.com.gr" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-envelope me-1"></i> Contact
+              </a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="team-member">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. James Rodriguez">
+              <h3>Dr. James Rodriguez</h3>
+              <p class="text-muted">GIS Specialist</p>
+              <p>Expert in spatial analysis and data visualization with focus on public health applications.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-envelope me-1"></i> Contact
+              </a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="team-member">
+              <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Dr. Amina Diallo">
+              <h3>Dr. Amina Diallo</h3>
+              <p class="text-muted">Data Scientist</p>
+              <p>Specializes in machine learning applications for mental health prediction models.</p>
+              <a href="#" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-envelope me-1"></i> Contact
+              </a>
+            </div>
+          </div>
+        </div> -->
+        
+        <!-- <div class="row mt-4">
+          <div class="col-md-12">
+            <h3>Collaborating Institutions</h3>
+            <div class="d-flex flex-wrap gap-4 align-items-center">
+              <img src="https://via.placeholder.com/150x80?text=University" alt="University" class="img-fluid" style="max-height: 80px;">
+              <img src="https://via.placeholder.com/150x80?text=Research+Center" alt="Research Center" class="img-fluid" style="max-height: 80px;">
+              <img src="https://via.placeholder.com/150x80?text=Health+Org" alt="Health Organization" class="img-fluid" style="max-height: 80px;">
+              <img src="https://via.placeholder.com/150x80?text=Tech+Partner" alt="Technology Partner" class="img-fluid" style="max-height: 80px;">
+            </div>
+          </div>
+        </div>
+      </div> -->
+      
+      <!-- Contact Tab -->
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="row">
+          <div class="col-md-6">
+        <h2><i class="fas fa-envelope me-2"></i>Contact Us</h2>
+        <p>Have questions about our data or methodology? Interested in collaboration opportunities? Reach out to our team.</p>
+        
+        <form class="contact-form mt-4" id="contactForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Your name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Your email">
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <select class="form-select" id="subject">
+          <option selected disabled>Select a topic</option>
+          <option>Data Inquiry</option>
+          <option>Collaboration Request</option>
+          <option>Technical Support</option>
+          <option>Other</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="5" placeholder="Your message"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane me-1"></i> Send Message
+          </button>
+        </form>
+        <script>
+          document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            // Get the email address from the contact info card
+            const contactEmail = document.querySelector('.card-text i.fa-envelope').nextSibling.textContent.trim();
+            const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(subject + (name ? ' - ' + name : ''))}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message)}`;
+            window.location.href = mailto;
+          });
+        </script>
+          </div>
+          <div class="col-md-6">
+        <h2><i class="fas fa-map-marker-alt me-2"></i>Our Location</h2>
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title">School of Rural, Surveying and Geoinformatics Engineering, National Technical University of Athens</h5>
+            <p class="card-text">
+          <i class="fas fa-building me-2"></i> Ir. Politechniou 9<br>
+          <i class="fas fa-city me-2"></i> Zografou 157 80<br>
+          <i class="fas fa-flag me-2"></i> Greece
+            </p>
+            <hr>
+            <p class="card-text">
+          <i class="fas fa-phone me-2"></i> +30 2107724225<br>
+          <i class="fas fa-envelope me-2"></i> etomai@mail.ntua.gr<br>
+          <i class="fas fa-clock me-2"></i> Mon-Fri: 9am-5pm EET
+            </p>
+          </div>
+        </div>
+        <div class="mt-2">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2453.226681654214!2d23.778018319705996!3d37.97530309463734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a197f175e7175d%3A0xb586dedd8124766d!2sSchool%20of%20Rural%2C%20Surveying%20and%20Geoinformatics%20Engineering%2C%20National%20Technical%20University%20of%20Athens!5e1!3m2!1sen!2sgr!4v1752236391858!5m2!1sen!2sgr" 
+          width="100%" height="300" style="border:0" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+<!--         
+        <div class="mt-4">
+          <h4>Connect With Us</h4>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-researchgate"></i></a>
+        </div> -->
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+
+  <footer class="text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h5>Mapping Disorders in EU</h5>
+          <p>Bridging geospatial technology and mental health research.</p>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="#home" class="text-white" data-bs-toggle="tab" onclick="document.getElementById('home-tab').click();">Home</a></li>
+            <li><a href="#maps" class="text-white" data-bs-toggle="tab" onclick="document.getElementById('maps-tab').click();">Maps</a></li>
+            <li><a href="#statistics-tab-pane" class="text-white" data-bs-toggle="tab" onclick="document.getElementById('statistics-tab').click();">Statistics</a></li>
+            <li><a href="#contact" class="text-white" data-bs-toggle="tab"  onclick="document.getElementById('contact-tab').click();">Contact</a></li>
+          </ul>
+        </div>
+        <!-- <div class="col-md-4">
+          <h5>Subscribe</h5>
+          <p>Get updates on new features and datasets.</p>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control" placeholder="Your email">
+            <button class="btn btn-primary" type="button">Subscribe</button>
+          </div>
+        </div>
+      </div> -->
+      <hr class="my-4 bg-light">
+      <p class="mb-0" style="font-size: smaller;">&copy; 2025 Adam M.P. - Geoinformatics Engineer M.Sc. NTUA & Tsingenopoulos V. - Geologist M.Sc. NTUA & Tomai E. - PhD, Laboratory Teaching Staff at the National Technical University of Athens Greece, Geographic Information Science and Cartography. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Initialize Bootstrap tabs (ensure the active tab is shown)
+      const activeTab = document.querySelector('.nav-tabs .nav-link.active');
+      if (activeTab) {
+        const tabs = new bootstrap.Tab(activeTab);
+        tabs.show();
+      }
+
+      // Initialize the map iframe with default content
+      const mapFrame = document.getElementById('mapFrame');
+      if (mapFrame) {
+        mapFrame.src = 'about:blank';
+      } else {
+        console.error('Map iframe element not found.');
+      }
+
+      // Initialize the statistics iframe with default content
+      const statisticsIframe = document.getElementById('statisticsIframe');
+      if (statisticsIframe) {
+        statisticsIframe.src = './html/statistics_1.html';
+      } else {
+        console.error('Statistics iframe element not found.');
+      }
+
+      // Activate tabs via anchor links (footer, home buttons, etc.)
+      document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const tabTrigger = new bootstrap.Tab(this);
+          tabTrigger.show();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // Map selector event
+      const mapSelector = document.getElementById('mapSelector');
+      if (mapSelector) {
+        mapSelector.addEventListener('change', function () {
+          const selectedValue = this.value;
+          if (mapFrame) {
+            mapFrame.src = selectedValue;
+          } else {
+            console.error('Map iframe element not found.');
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depressive Disorders: 1990-2019 Timelapse</title>
+    <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <link rel="icon" href="data:," /> <!-- Prevent favicon loading -->
+</head>
+<body>
+    <div id="container">
+        <div id="map"></div>
+        <!-- <div id="map-title" class="map-title">Depressive Disorders (1990)</div> -->
+        <!-- <div class="info-box1">ℹ️ Use the controls below to play/pause the timelapse</div> -->
+        <!-- <div class="info-box2">Click on a country to see the trend of Depressive Disorders over the years</div> -->
+        <button id="toggle-info-button" class="info-button" title="Toggle Info">ℹ️ Usage instructions</button>
+        <div class="interaction-info" id="interaction-info" style="display: none;">
+            <h3 style="display:flex; line-height:1.5;color: #20156f">ℹ️ Interactive Map Controls Navigation Window:</h3>
+            <details>
+            <summary style="font-size:larger;">Basic Map Interactions</summary>
+            <ul>
+                <li style=" font-size:larger"><span style="color: #20156f; font-weight:bold; font-size:medium">Click on the map:</span> Displays a tooltip with the country name and alcohol use disorder rate for the selected year.</li>
+            </ul>
+            </details>
+            <details>
+            <summary style="font-size:larger;">Timelapse Controls</summary>
+            <ul>
+                <li style=" font-size:larger"><span style="color: #20156f;  font-weight:bold; font-size:medium">Play button (▶):</span> Starts the timelapse animation, cycling through the years from 1990 to 2019.</li>
+                <li style=" font-size:larger"><span style="color: #20156f;font-weight:bold; font-size:medium">Previous year button (<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 25px; height: 25px; display: inline-block; vertical-align: middle; justify-content: center; align-items: center; flex-direction:row;transform:scale(-0.6, 0.6); fill: #20156f;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z" style="fill: #20156f;"></path></svg>):</span> Moves the timeline back by one year.</li>
+                <li style=" font-size:larger"><span style="color: #20156f; font-weight:bold; font-size:medium">Next year button (<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="width: 25px; height: 25px; display: inline-block; vertical-align: middle; justify-content: center; align-items: center;transform:scale(0.6);fill: #20156f;"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"/></svg>):</span> Moves the timeline forward by one year.</li>
+                <li style="font-size: larger"><span style="color: #20156f;font-weight:bold; font-size:medium">Speed slider: </span> Adjusts the playback speed of the timelapse animation (1x to 10x).</li>
+            </ul>
+            </details>
+            <details>
+            <summary style="font-size:larger;">Additional Features</summary>
+            <ul>
+                <li style="font-size: larger"><span style="color: #20156f;font-weight:bold; font-size:medium">Distribution 📉 button:</span>  Toggles the display of the trend chart for the selected country.</li>
+                <li style="font-size: larger"><span style="color: #20156f;font-weight:bold; font-size:medium"> Toggle 3D View <span aria-hidden="true">🌐</span><span class="visually-hidden">(Globe Icon)</span> button: </span> Switches between 2D and 3D map views.</li>
+            </ul>
+            </details>
+        </div>
+        <script>
+            const toggleInfoButton = document.getElementById('toggle-info-button');
+            const interactionInfo = document.getElementById('interaction-info');
+
+            toggleInfoButton.addEventListener('click', () => {
+            const isHidden = interactionInfo.style.display === 'none';
+            interactionInfo.style.display = isHidden ? 'block' : 'none';
+            });
+        </script>
+        <div class="legend">
+            <strong>Depressive Disorders </strong><br><small><b>Cases per 1000 people</b></small><br><br>
+            <div class="legend-item"><div class="legend-color" style="background:#ffffcc;"></div><span>&lt;25</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#a1dab4;"></div><span>25-32</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#41b6c4;"></div><span>32-39</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#2c7fb8;"></div><span>39-46</span></div>
+            <div class="legend-item"><div class="legend-color" style="background:#253494;"></div><span>&gt;46</span></div>
+        </div>
+        <div class="mapboxgl-ctrl-scale-line"></div>
+        <div class="copyright"><small>© 2025 Adam M.P. - Geoinformatics Engineer & Tsingenopoulos V. - Geologist & GIS Engineer| Map data © Eurostat, MapLibre contributors</small></div>
+        <!-- <div class="timelapse-controls">
+            <div class="year-display">Year: <span id="current-year">1990</span></div>
+            <div class="timelapse-slider-container">
+                <button id="decrease-year" class="year-button">-</button>
+                <input type="range" min="1990" max="2019" value="1990" class="timelapse-slider" id="year-slider">
+                <button id="increase-year" class="year-button">+</button>
+            </div>
+            <button class="play-button" id="play-button">Play</button>
+            <div class="speed-control">
+                <label for="speed-slider">Speed:</label>
+                <input type="range" min="1" max="10" value="5" id="speed-slider">
+                <span id="speed-value">5x</span>
+            </div>
+        </div> -->
+        <div class="timeline-container">
+            <div class="timeline-controls">
+                <button id="play-button" class="timeline-button">
+                    <span id="play-icon">▶</span>
+                </button>
+                <button id="prev-year" class="timeline-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:flex; flex-direction:row; justify-content: center; align-items:center;transform:scale(-0.6, 0.6); filter: brightness(0) invert(1);"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"/></svg>
+                    <!-- <img src="./player-fast-back.svg" style="justify-content: center; align-items:center; filter: brightness(0) invert(1);"> --></button>
+                <div class="year-display"><span id="current-year">1990</span></div>
+                <button id="next-year" class="timeline-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="justify-content: center; align-items:center;transform:scale(0.6); filter: brightness(0) invert(1);"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M512 76v360c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12V284.1L276.5 440.6c-20.6 17.2-52.5 2.8-52.5-24.6V284.1L52.5 440.6C31.9 457.8 0 443.4 0 416V96c0-27.4 31.9-41.7 52.5-24.6L224 226.8V96c0-27.4 31.9-41.7 52.5-24.6L448 226.8V76c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12z"/></svg>
+                    <!-- <img src="./fast-forward.svg" style="justify-content: center; align-items:center; filter: brightness(0) invert(1);"> -->
+                </button>
+                <div class="speed-control">
+                    <span>Speed:</span>
+                    <input type="range" min="1" max="10" value="5" id="speed-slider">
+                    <span id="speed-value">5x</span>
+                </div>
+            </div>
+            <div class="timeline-bar">
+                <div class="timeline-scroll">
+                    <div class="timeline-years">
+                        <!-- Years will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container" id="chart-container" style="display: none;">
+            <canvas id="trend-chart"></canvas>
+        </div>
+        <button class="play-button" id="show-stats-button" title="Show Distribution (Chart)">Show Distribution 📉</button>
+        <button id="toggle-3d-button" aria-label="Toggle 3D View" title="Toggle 2D/3D View">3D View 🌐</button>
+        <div id="loading" class="loading">Loading map data...</div>
+        <div id="error" class="error" style="display:none;"></div>
+    </div>
+    <script src="../js/script_depression.js"></script>   
+</body>
+</html>
