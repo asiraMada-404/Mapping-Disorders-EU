@@ -13,7 +13,6 @@
   <nav class="navbar navbar-custom navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand">
-        <!-- <i class="fas fa-brain me-2"></i>Mapping Disorders in EU Explorer -->
         <i class="fas fa-heart-pulse me-2"></i>Mapping Disorders in EU 
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -41,11 +40,6 @@
               <i class="fas fa-chart-bar me-1"></i> Statistics
             </a>
           </li>
-          <!-- <li class="nav-item" role="presentation">
-            <a class="nav-link" id="team-tab" data-bs-toggle="tab" href="#team" role="tab" aria-controls="team" aria-selected="false">
-              <i class="fas fa-users me-1"></i> Team
-            </a>
-          </li> -->
           <li class="nav-item" role="presentation">
             <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
               <i class="fas fa-envelope me-1"></i> Contact
@@ -213,8 +207,6 @@
           <option value="./html/drugs.html">Drug Use Disorders</option>
           <option value="./html/anxiety.html">Anxiety Disorders</option>
           <option value="./html/depression.html">Depressive Disorders</option>
-          <!-- <option value="bipolar.html">Bipolar Disorder</option>
-          <option value="schizophrenia.html">Schizophrenia</option> -->
         </select>
         
         <div class="iframe-container">
@@ -237,9 +229,6 @@
             <button class="btn btn-outline-primary me-2 mb-2" onclick="downloadZipFileCSV()">
               <i class="fas fa-file-csv me-1"></i> CSV
             </button>
-            <!-- <button class="btn btn-outline-primary me-2 mb-2">
-              <i class="fas fa-file-excel me-1"></i> Excel<i class="fas fa-file-geo me-1"></i> GeoJSON
-            </button> -->
             <button class="btn btn-outline-primary me-2 mb-2" onclick="downloadZipFileGJ()">
               <i class="fas fa-file-code"></i> GeoJSON
             </button>
@@ -268,62 +257,6 @@
           <iframe id="statisticsIframe" src="./html/statistics_1.html"></iframe>
         </div>
       </div>
-      
-      <!-- Team Tab -->
-      <!-- <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
-        <h2 class="mb-4"><i class="fas fa-users me-2"></i>Our Team</h2>
-        
-        <div class="row">
-          <div class="col-md-4">
-            <div class="team-member">
-              <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Dr. Sarah Chen">
-              <h3>Maria-Panagiota Adam</h3>
-              <p class="text-muted">Lead Neuroscientist</p>
-              <p>PhD in Clinical Neuroscience with 15 years experience in psychiatric epidemiology.</p>
-              <a href="#" class="btn btn-sm btn-outline-primary">
-                <i class="fas fa-envelope me-1"></i> Contact
-              </a> -->
-              <!-- <a href="mailto:mariapanaad@outlook.com.gr" class="btn btn-sm btn-outline-primary">
-                <i class="fas fa-envelope me-1"></i> Contact
-              </a>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="team-member">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. James Rodriguez">
-              <h3>Dr. James Rodriguez</h3>
-              <p class="text-muted">GIS Specialist</p>
-              <p>Expert in spatial analysis and data visualization with focus on public health applications.</p>
-              <a href="#" class="btn btn-sm btn-outline-primary">
-                <i class="fas fa-envelope me-1"></i> Contact
-              </a>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="team-member">
-              <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Dr. Amina Diallo">
-              <h3>Dr. Amina Diallo</h3>
-              <p class="text-muted">Data Scientist</p>
-              <p>Specializes in machine learning applications for mental health prediction models.</p>
-              <a href="#" class="btn btn-sm btn-outline-primary">
-                <i class="fas fa-envelope me-1"></i> Contact
-              </a>
-            </div>
-          </div>
-        </div> -->
-        
-        <!-- <div class="row mt-4">
-          <div class="col-md-12">
-            <h3>Collaborating Institutions</h3>
-            <div class="d-flex flex-wrap gap-4 align-items-center">
-              <img src="https://via.placeholder.com/150x80?text=University" alt="University" class="img-fluid" style="max-height: 80px;">
-              <img src="https://via.placeholder.com/150x80?text=Research+Center" alt="Research Center" class="img-fluid" style="max-height: 80px;">
-              <img src="https://via.placeholder.com/150x80?text=Health+Org" alt="Health Organization" class="img-fluid" style="max-height: 80px;">
-              <img src="https://via.placeholder.com/150x80?text=Tech+Partner" alt="Technology Partner" class="img-fluid" style="max-height: 80px;">
-            </div>
-          </div>
-        </div>
-      </div> -->
       
       <!-- Contact Tab -->
       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
@@ -366,7 +299,6 @@
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
-            // Get the email address from the contact info card
             const contactEmail = document.querySelector('.card-text i.fa-envelope').nextSibling.textContent.trim();
             const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(subject + (name ? ' - ' + name : ''))}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message)}`;
             window.location.href = mailto;
@@ -395,14 +327,6 @@
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2453.226681654214!2d23.778018319705996!3d37.97530309463734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a197f175e7175d%3A0xb586dedd8124766d!2sSchool%20of%20Rural%2C%20Surveying%20and%20Geoinformatics%20Engineering%2C%20National%20Technical%20University%20of%20Athens!5e1!3m2!1sen!2sgr!4v1752236391858!5m2!1sen!2sgr" 
           width="100%" height="300" style="border:0" allowfullscreen="" loading="lazy"></iframe>
         </div>
-<!--         
-        <div class="mt-4">
-          <h4>Connect With Us</h4>
-          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-          <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-          <a href="#" class="social-icon"><i class="fab fa-researchgate"></i></a>
-        </div> -->
           </div>
         </div>
       </div>
@@ -425,15 +349,6 @@
             <li><a href="#contact" class="text-white" data-bs-toggle="tab"  onclick="document.getElementById('contact-tab').click();">Contact</a></li>
           </ul>
         </div>
-        <!-- <div class="col-md-4">
-          <h5>Subscribe</h5>
-          <p>Get updates on new features and datasets.</p>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Your email">
-            <button class="btn btn-primary" type="button">Subscribe</button>
-          </div>
-        </div>
-      </div> -->
       <hr class="my-4 bg-light">
       <p class="mb-0" style="font-size: smaller;">&copy; 2025 Adam M.P. - Geoinformatics Engineer M.Sc. NTUA & Tsingenopoulos V. - Geologist M.Sc. NTUA & Tomai E. - PhD, Laboratory Teaching Staff at the National Technical University of Athens Greece, Geographic Information Science and Cartography. All rights reserved.</p>
     </div>
